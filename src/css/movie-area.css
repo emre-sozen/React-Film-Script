@@ -1,0 +1,207 @@
+/* I grouped all the css styles together. */
+
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Button Style */
+button {
+  background-color: #027efe;
+  border: none;
+}
+/* Button Style */
+
+/* Text Style */
+.text {
+  font-size: 15px;
+}
+/* Text Style */
+
+/* Icon Style */
+.fa-search {
+  color: #e7e7e7;
+}
+.fa-sort-down {
+  color: #027efe;
+  font-size: 23px;
+}
+/* Icon Style */
+
+/* Form Search Box Style */
+.form-control {
+  border: none !important;
+}
+.form-control:first-child {
+  color: rgb(182, 182, 182);
+  font-size: 15px;
+}
+.form-search {
+  border: none !important;
+}
+.form-search::placeholder {
+  font-size: 15px;
+  padding: 0 0 0 6px;
+  color: rgb(182, 182, 182) !important;
+}
+.arrow {
+  position: absolute;
+  top: 4px;
+  right: 15px;
+}
+/* Form Search Box Style */
+
+/* Selectbox Style */
+select.form-control {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+option {
+  font-size: 16px;
+  padding-top: 25px !important;
+}
+/* Selectbox Style */
+
+/* Navbar Area Style */
+.logo-text {
+  font-size: 37px;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 29px;
+  font-weight: 400;
+}
+/* Navbar Area Style */
+
+.bs-placeholder {
+  background-color: rgb(255, 255, 255) !important;
+}
+
+/* Content and ContentMovie & ContentSeries Card Style */
+.card {
+  width: 12em;
+  border: none !important;
+}
+.card-movie {
+  width: 12em;
+  border: none !important;
+}
+.card-movie img {
+  width: 12em !important;
+  height: 30vh !important;
+}
+.card-img-top {
+  width: 85% !important;
+  height: 27vh;
+  background-color: black;
+  background-image: url(../images/background/placeholder.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Content and ContentMovie & ContentSeries Card Style */
+
+/* Width - Sizing STYLE */
+.w20 {
+  width: 10%;
+}
+.w25 {
+  width: 20%;
+}
+.w35 {
+  width: 35%;
+}
+/* Width - Sizing STYLE */
+
+/* FOOTER AREA STYLE */
+/* Nav items styling in footer area */
+.nav-link {
+  color: #999999;
+}
+.nav-link-2 {
+  color: #969696;
+}
+.nav-item {
+  border-right: 0.5px solid #969696;
+  line-height: 0.5px;
+}
+.nav-item:last-child {
+  border: none;
+}
+.navbar-toggler {
+  border: none !important;
+}
+/* Nav items styling in footer area */
+
+.footer {
+  position: relative;
+  margin-top: 22vh;
+  background-color: black;
+}
+/* FOOTER AREA STYLE */
+
+/* Responsive Style */
+@media only screen and (max-width: 600px) {
+  .card {
+    width: 10em;
+  }
+  .card-img-top {
+    height: 35vh;
+  }
+  .card img {
+    object-fit: cover;
+    height: 40vh;
+  }
+  .card-movie img {
+    width: 45vw !important;
+    height: 40vh !important;
+  }
+  .nav-item {
+    padding: 4px 5px;
+  }
+  .nav-item .nav-link {
+    font-size: 14px;
+  }
+  .nav-link-2 {
+    padding-top: 10px;
+    font-size: 11px;
+  }
+  .w15-l80 {
+    width: 39%;
+    margin-left: 80px;
+  }
+  .w15-t20-l80 {
+    width: 39%;
+    margin-top: 20px;
+    margin-left: 80px;
+  }
+  .logo-text {
+    font-size: 25px;
+    font-weight: 450;
+  }
+  .title {
+    font-size: 23px;
+    font-weight: 400;
+  }
+  .searchType {
+    font-size: 12px !important;
+  }
+
+  input::placeholder {
+    font-size: 12px !important;
+  }
+  .form-search {
+    height: 6vh !important;
+  }
+  .footer {
+    margin-top: 5vh;
+  }
+}
+/* Responsive Style */

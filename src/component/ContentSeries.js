@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { getMovies } from "../actions";
-import Navbar from "./Navbar";
+import { connect, useDispatch, useSelector  } from "react-redux";
+import { getData } from "../actions";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css";
@@ -25,15 +24,15 @@ const ContentSeries = ( props ) => {
           <div className="col-md-12 p-0">
             <div className="row d-flex justify-content-around p-0">
               <div className="d-flex justify-content-around flex-wrap">
-                {props.movieList.slice(0, 21).map((movie) => (
+                {props.serieList.slice(0, 21).map((serie) => (
                   <div className="card-movie">
                     <img
-                      src={movie.images["Poster Art"].url}
+                      src={serie.images["Poster Art"].url}
                       className="card-img-top"
                       alt="..."
                     />
                     <div className="card-body d-flex align-items-center p-0 mt-2">
-                      <p className="text">{movie.title}</p>
+                      <p className="text">{serie.title}</p>
                     </div>
                   </div>
                 ))}
@@ -51,85 +50,74 @@ const ContentSeries = ( props ) => {
 
 const Series = (props) => {
   useEffect(() => {
-    props.getMovies();
+    props.getData();
   }, []);
 
+  const [result, setResult] = useState(props.series);
+  const { loading, errorMessage } = props;
+  const dispatch = useDispatch();
+
   console.log(props);
-
-  // Filtering series
-  const film = props.movies.filter(
-    (movieType) => movieType.programType === "series"
-  );
-
-  // Filtering year >= 2011
-  const year = [...film].filter((movie) => movie.releaseYear >= 2011);
-
-  // Alphabet sort & initialize state
-  const initiliaze = [...year].sort((a, b) =>
-    a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
-  );
 
   // This state shows the data on the screen.
   // We filter it and update the state.
 
-  const [result, setResult] = useState(initiliaze);
-  const { loading, errorMessage } = props;
-
-  // Sorting desceding year
-  const newyear = [...result].sort((a, b) =>
-    b.releaseYear !== a.releaseYear
-      ? b.releaseYear < a.releaseYear
-        ? -1
-        : 1
-      : 0
-  );
-
-  // Sorting asceding year
-  const oldyear = [...result].sort((a, b) =>
-    a.releaseYear !== b.releaseYear
-      ? a.releaseYear < b.releaseYear
-        ? -1
-        : 1
-      : 0
-  );
-
-  // Sorting asceding title
-  const ascedTitle = [...result].sort((a, b) =>
-    a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
-  );
-  // Sorting desceding title
-  const descedTitle = [...result].sort((a, b) =>
-    b.title !== a.title ? (b.title < a.title ? -1 : 1) : 0
-  );
-
   // DescedingYear Func
   const descedingYear = () => {
-    setResult(newyear);
+    dispatch({
+      type: "SERIES_YILA_GORE_AZALAN",
+      payload: [...props.series].sort((a, b) => b.releaseYear - a.releaseYear),
+    });
   };
   // AsscedingYear Func
   const asscedingYear = () => {
-    setResult(oldyear);
+    dispatch({
+      type: "SERIES_YILA_GORE_ARTAN",
+      payload: [...props.series].sort((a, b) =>
+        a.releaseYear !== b.releaseYear
+          ? a.releaseYear < b.releaseYear
+            ? -1
+            : 1
+          : 0
+      ),
+    });
   };
   // AsscedingTitle Func
   const ascedingTitle = () => {
-    setResult(ascedTitle);
+    dispatch({
+      type: "SERIES_TITLE_GORE_ARTAN",
+      payload: [...props.series].sort((a, b) =>
+        a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
+      ),
+    });
   };
   // DescedingTitle Func
   const descedingTite = () => {
-    setResult(descedTitle);
-  };
-  // Search Result
-  const searchResult = (e) => {
-    if (e.target.value.length > 3) {
-      const resulinit = result.filter((item) =>
-        item.title.includes(e.target.value)
-      );
-      setResult(resulinit);
-    } else if (e.target.value.length === 3) {
-      setResult(initiliaze);
-    }
+    dispatch({
+      type: "SERIES_TITLE_GORE_AZALAN",
+      payload: [...props.series].sort((a, b) =>
+        b.title !== a.title ? (b.title < a.title ? -1 : 1) : 0
+      ),
+    });
   };
 
+  const searchTitle = (e) => {
+    dispatch({
+      type: "SERIES_TITLE_SEARCH",
+      payload: result.filter((item) => item.title.includes(e.target.value)),
+    });
+  };
+  const clearTitle = () => {
+    dispatch({ type: "SERIES_TITLE_CLEAR", payload: result });
+  };
+
+  const dene = (e) => {
+    if (e.target.value.length > 3) {
+      searchTitle(e);
+    } else if (e.target.value.length == 3) {
+      clearTitle();
+    }
+  };
   // Selectbox change func
   const handleChange = (e) => {
     let val = parseInt(e.target.value);
@@ -157,7 +145,7 @@ const Series = (props) => {
                     type="text"
                     className="form-search form-control shadow"
                     placeholder="Search.."
-                    onChange={searchResult}
+                    onChange={dene}
                   />
                   <button className="btn-search shadow p-0 p-sm-1 px-2 px-sm-3">
                     <i className="fas fa-search p-0 p-sm-1"></i>
@@ -188,15 +176,23 @@ const Series = (props) => {
           </div>
 
           <div className="mt-4 p-4">
-            {loading && !errorMessage ? (
+
+          {result.length > 0 ? (
+              <ContentSeries serieList={props.series} />
+            ) : (
+              <ContentSeries serieList={result} />
+            )}
+
+
+            {/* {loading && !errorMessage ? (
               <h1>loading... </h1>
             ) : errorMessage ? (
               <div className="errorMessage">{errorMessage}</div>
             ) : result.length > 0 ? (
-              <ContentSeries movieList={result} />
+              <ContentSeries serieList={result} />
             ) : (
-              <ContentSeries movieList={result} />
-            )}
+              <ContentSeries serieList={result} />
+            )} */}
           </div>
         </div>
       </div>
@@ -206,8 +202,8 @@ const Series = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.movies,
+    series: state.series
   };
 };
 
-export default connect(mapStateToProps, { getMovies })(Series);
+export default connect(mapStateToProps, { getData })(Series);

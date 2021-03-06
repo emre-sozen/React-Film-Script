@@ -9,11 +9,6 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom' ;
 
 
 const App = (props) => {
-  
-  interface IOProps {
-    title?: Array<string | number>;
-  }
-
 
   const [title, setTitle] = useState("Titles");
   return (

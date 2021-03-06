@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { getMovies } from "../actions";
-
+import { getData } from "../actions";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "../css/movie-area.css";
+
+
 
 // ContentMovie is a component that shows incoming props.
 
@@ -49,7 +50,7 @@ const ContentMovie = (props) => {
 
 const Movies = (props) => {
   useEffect(() => {
-    props.getMovies();
+    props.getData();
   }, []);
 
   const [result, setResult] = useState(props.movies);
@@ -64,15 +65,14 @@ const Movies = (props) => {
   const descedingYear = () => {
     dispatch({
       type: "YILA_GORE_AZALAN",
-      payload: [...result].sort((a, b) => b.releaseYear - a.releaseYear),
+      payload: [...props.movies].sort((a, b) => b.releaseYear - a.releaseYear),
     });
-    setResult(props.movies);
   };
   // AsscedingYear Func
   const asscedingYear = () => {
     dispatch({
       type: "YILA_GORE_ARTAN",
-      payload: [...result].sort((a, b) =>
+      payload: [...props.movies].sort((a, b) =>
         a.releaseYear !== b.releaseYear
           ? a.releaseYear < b.releaseYear
             ? -1
@@ -80,27 +80,24 @@ const Movies = (props) => {
           : 0
       ),
     });
-    setResult(props.movies);
   };
   // AsscedingTitle Func
   const ascedingTitle = () => {
     dispatch({
       type: "TITLE_GORE_ARTAN",
-      payload: [...result].sort((a, b) =>
+      payload: [...props.movies].sort((a, b) =>
         a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
       ),
     });
-    setResult(props.movies);
   };
   // DescedingTitle Func
   const descedingTite = () => {
     dispatch({
       type: "TITLE_GORE_AZALAN",
-      payload: [...result].sort((a, b) =>
+      payload: [...props.movies].sort((a, b) =>
         b.title !== a.title ? (b.title < a.title ? -1 : 1) : 0
       ),
     });
-    setResult(props.movies);
   };
 
   const searchTitle = (e) => {
@@ -108,11 +105,9 @@ const Movies = (props) => {
       type: "TITLE_SEARCH",
       payload: result.filter((item) => item.title.includes(e.target.value)),
     });
-    setResult(props.movies);
   };
   const clearTitle = () => {
     dispatch({ type: "TITLE_CLEAR", payload: result });
-    setResult(result);
   };
 
   const dene = (e) => {
@@ -231,12 +226,7 @@ const Movies = (props) => {
 const mapStateToProps = (state) => {
   return {
     data: state.data,
-    movies: state.movies,
-    series: state.series,
-    azalanyear: state.yearArtan,
-    artanyear: state.yearAzalan,
-    titleazalan: state.titleazalan,
-    titleartan: state.titleartan,
+    movies: state.movies
   };
 };
 
@@ -247,4 +237,4 @@ const mapStateToProps = (state) => {
          }
 } */
 
-export default connect(mapStateToProps, { getMovies })(Movies);
+export default connect(mapStateToProps, { getData })(Movies);

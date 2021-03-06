@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getMovies = () => (dispatch) => {
+export const getData = () => (dispatch) => {
   axios
     .get(
       "https://raw.githubusercontent.com/pankod/frontend-challenge/43670085762ee35eea5315042c3c582b08252e87/feed/sample.json"
@@ -12,4 +12,3 @@ export const getMovies = () => (dispatch) => {
     )
     .catch((error) => dispatch({ type: "GET_DATA_ERROR", payload: error }));
 };
-

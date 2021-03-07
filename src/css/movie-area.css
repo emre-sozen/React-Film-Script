@@ -153,7 +153,7 @@ option {
     width: 10em;
   }
   .card-img-top {
-    height: 35vh;
+    height: 30vh;
   }
   .card img {
     object-fit: cover;
@@ -161,7 +161,7 @@ option {
   }
   .card-movie img {
     width: 45vw !important;
-    height: 40vh !important;
+    height: 30vh !important;
   }
   .nav-item {
     padding: 4px 5px;
@@ -193,15 +193,8 @@ option {
   .searchType {
     font-size: 12px !important;
   }
-
   input::placeholder {
     font-size: 12px !important;
-  }
-  .form-search {
-    height: 6vh !important;
-  }
-  .footer {
-    margin-top: 5vh;
   }
 }
 /* Responsive Style */

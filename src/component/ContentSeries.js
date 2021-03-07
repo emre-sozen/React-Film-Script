@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect, useDispatch, useSelector  } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { getData } from "../actions";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -8,10 +8,9 @@ import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "../css/movie-area.css";
 
-
 // ContentSeries is a component that shows incoming props.
 
-const ContentSeries = ( props ) => {
+const ContentSeries = (props) => {
   console.log(props);
 
   return (
@@ -70,7 +69,7 @@ const Series = (props) => {
     });
   };
   // AsscedingYear Func
-  const asscedingYear = () => {
+  const ascedingYear = () => {
     dispatch({
       type: "SERIES_YILA_GORE_ARTAN",
       payload: [...props.series].sort((a, b) =>
@@ -92,7 +91,7 @@ const Series = (props) => {
     });
   };
   // DescedingTitle Func
-  const descedingTite = () => {
+  const descedingTitle = () => {
     dispatch({
       type: "SERIES_TITLE_GORE_AZALAN",
       payload: [...props.series].sort((a, b) =>
@@ -111,7 +110,7 @@ const Series = (props) => {
     dispatch({ type: "SERIES_TITLE_CLEAR", payload: result });
   };
 
-  const dene = (e) => {
+  const handleSearch = (e) => {
     if (e.target.value.length > 3) {
       searchTitle(e);
     } else if (e.target.value.length == 3) {
@@ -124,35 +123,32 @@ const Series = (props) => {
     return val === 1
       ? descedingYear()
       : val === 2
-      ? asscedingYear()
+      ? ascedingYear()
       : val === 3
-      ? descedingTite()
+      ? descedingTitle()
       : ascedingTitle();
   };
 
   return (
     <div>
-      <div className="container mt-4 p-0" style={{ maxWidth: 1400 + "px" }}>
+      <div className="container mt-2 p-0" style={{ maxWidth: 1400 + "px" }}>
         <div className="row">
-          <div
-            className="container m-0 p-sm-0"
-            style={{ maxWidth: 1410 + "px" }}
-          >
+          <div className="container m-0 p-sm-0">
             <div className="row justify-content-between">
-              <div className="col-5 p-0">
-                <div className="input-group ml-2 ml-sm-3 mt-2">
+              <div className="col-5 p-2">
+                <div className="input-group ml-3 mt-2">
                   <input
                     type="text"
                     className="form-search form-control shadow"
                     placeholder="Search.."
-                    onChange={dene}
+                    onChange={handleSearch}
                   />
                   <button className="btn-search shadow p-0 p-sm-1 px-2 px-sm-3">
-                    <i className="fas fa-search p-0 p-sm-1"></i>
+                    <i className="fas fa-search"></i>
                   </button>
                 </div>
               </div>
-              <div className="offset-md-3 col-4 p-0 pl-0 pl-sm-5 mr-5 mr-sm-0">
+              <div className="offset-md-3 col-5 col-md-4 p-2 pl-sm-5 mr-4 mr-sm-0">
                 <div className="d-flex justify-content-end pl-0 pl-sm-4 mt-2">
                   <select
                     name="searchtype"
@@ -167,7 +163,7 @@ const Series = (props) => {
                     <option value="3">Desceding Title</option>
                     <option value="4">Asceding Title</option>
                   </select>
-                  <span className="arrow mt-1">
+                  <span className="arrow mt-2 pt-1">
                     <i className="fas fa-sort-down"></i>
                   </span>
                 </div>
@@ -176,23 +172,15 @@ const Series = (props) => {
           </div>
 
           <div className="mt-4 p-4">
-
-          {result.length > 0 ? (
+            {loading && !errorMessage ? (
+              <h1>loading... </h1>
+            ) : errorMessage ? (
+              <div>{errorMessage}</div>
+            ) : result.length > 0 ? (
               <ContentSeries serieList={props.series} />
             ) : (
               <ContentSeries serieList={result} />
             )}
-
-
-            {/* {loading && !errorMessage ? (
-              <h1>loading... </h1>
-            ) : errorMessage ? (
-              <div className="errorMessage">{errorMessage}</div>
-            ) : result.length > 0 ? (
-              <ContentSeries serieList={result} />
-            ) : (
-              <ContentSeries serieList={result} />
-            )} */}
           </div>
         </div>
       </div>
@@ -202,7 +190,9 @@ const Series = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    series: state.series
+    series: state.series,
+    loading: state.loading,
+    errorMessage: state.errorMessage,
   };
 };
 

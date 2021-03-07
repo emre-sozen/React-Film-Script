@@ -9,44 +9,54 @@ const INITIAL_STATE = {
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "GET_DATA_SUCCESS":
-      return { ...state, loading: true, data: action.payload };
+      return { ...state, loading: false, data: action.payload };
     case "GET_DATA_MOVIE":
-      return { ...state, loading: true, movies: action.payload };
+      return { ...state, loading: false, movies: action.payload };
     case "GET_DATA_SERIES":
-      return { ...state, loading: true, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
 
     case "YILA_GORE_AZALAN":
-      return { ...state, movies: action.payload };
+      return { ...state, loading: false, movies: action.payload };
     case "YILA_GORE_ARTAN":
-      return { ...state, movies: action.payload };
+      return { ...state, loading: false, movies: action.payload };
+
+    case "MOVIES_TITLE_SEARCH":
+      return { ...state, loading: false, movies: action.payload };
+    case "MOVIES_TITLE_CLEAR":
+      return { ...state, loading: false, movies: action.payload };
 
     case "TITLE_GORE_AZALAN":
-      return { ...state, movies: action.payload };
+      return { ...state, loading: false, movies: action.payload };
     case "TITLE_GORE_ARTAN":
-      return { ...state, movies: action.payload };
+      return { ...state, loading: false, movies: action.payload };
 
     case "SERIES_TITLE_SEARCH":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
     case "SERIES_TITLE_CLEAR":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
 
     case "SERIES_YILA_GORE_AZALAN":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
     case "SERIES_YILA_GORE_ARTAN":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
 
     case "SERIES_TITLE_GORE_AZALAN":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
     case "SERIES_TITLE_GORE_ARTAN":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
 
     case "SERIES_TITLE_SEARCH":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
     case "SERIES_TITLE_CLEAR":
-      return { ...state, series: action.payload };
+      return { ...state, loading: false, series: action.payload };
 
     case "GET_DATA_ERROR":
-      return { ...state, loading: false, message: action.payload };
+      return {
+        ...state,
+        loading: false,
+        errorMessage: "ERROR 404 FOUND",
+        message: action.payload,
+      };
     default:
       return INITIAL_STATE;
   }

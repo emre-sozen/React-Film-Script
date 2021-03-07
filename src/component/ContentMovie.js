@@ -7,8 +7,6 @@ import "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "../css/movie-area.css";
 
-
-
 // ContentMovie is a component that shows incoming props.
 
 const ContentMovie = (props) => {
@@ -53,6 +51,7 @@ const Movies = (props) => {
     props.getData();
   }, []);
 
+  const dispatch = useDispatch();
   const [result, setResult] = useState(props.movies);
   const { loading, errorMessage } = props;
 
@@ -69,7 +68,7 @@ const Movies = (props) => {
     });
   };
   // AsscedingYear Func
-  const asscedingYear = () => {
+  const ascedingYear = () => {
     dispatch({
       type: "YILA_GORE_ARTAN",
       payload: [...props.movies].sort((a, b) =>
@@ -91,7 +90,7 @@ const Movies = (props) => {
     });
   };
   // DescedingTitle Func
-  const descedingTite = () => {
+  const descedingTitle = () => {
     dispatch({
       type: "TITLE_GORE_AZALAN",
       payload: [...props.movies].sort((a, b) =>
@@ -102,15 +101,15 @@ const Movies = (props) => {
 
   const searchTitle = (e) => {
     dispatch({
-      type: "TITLE_SEARCH",
+      type: "MOVIES_TITLE_SEARCH",
       payload: result.filter((item) => item.title.includes(e.target.value)),
     });
   };
   const clearTitle = () => {
-    dispatch({ type: "TITLE_CLEAR", payload: result });
+    dispatch({ type: "MOVIES_TITLE_CLEAR", payload: result });
   };
 
-  const dene = (e) => {
+  const handleSearch = (e) => {
     if (e.target.value.length > 3) {
       searchTitle(e);
     } else if (e.target.value.length == 3) {
@@ -118,66 +117,38 @@ const Movies = (props) => {
     }
   };
 
-  // Search Result
-  /*   const searchResult = (e) => {
-    if (e.target.value.length > 3) {
-      const resulinit = result.filter((item) =>
-        item.title.includes(e.target.value)
-      );
-      console.log(resulinit);
-      setResult(resulinit);
-    } else if (e.target.value.length === 3) {
-      setResult(props.movies);
-    }
-  }; */
-
   // Selectbox change func
-  /*   const handleChange = (e) => {
+  const handleChange = (e) => {
     let val = parseInt(e.target.value);
     return val == 1
       ? descedingYear()
       : val == 2
-      ? asscedingYear()
+      ? ascedingYear()
       : val == 3
-      ? descedingTite()
+      ? descedingTitle()
       : ascedingTitle();
   };
- */
-  const handleChange = (e) => {
-    let val = parseInt(e.target.value);
-    if (val == 1) {
-      descedingYear();
-    } else if (val == 2) {
-      asscedingYear();
-    } else if (val == 3) {
-      descedingTite();
-    } else if (val == 4) {
-      ascedingTitle();
-    }
-  };
-
-  const dispatch = useDispatch();
 
   return (
     <div>
-      <div className="container mt-4 p-0" style={{ maxWidth: 1400 + "px" }}>
+      <div className="container mt-2 p-0" style={{ maxWidth: 1400 + "px" }}>
         <div className="row">
-          <div className="container m-0 p-0" style={{ maxWidth: 1410 + "px" }}>
-            <div className="row justify-content-between ">
-              <div className="col-5 p-0">
+          <div className="container m-0 p-sm-0">
+            <div className="row justify-content-between">
+              <div className="col-5 p-2">
                 <div className="input-group ml-3 mt-2">
                   <input
                     type="text"
                     className="form-search form-control shadow"
                     placeholder="Search.."
-                    onChange={dene}
+                    onChange={handleSearch}
                   />
                   <button className="btn-search shadow p-0 p-sm-1 px-2 px-sm-3">
-                    <i className="fas fa-search p-0 p-sm-1"></i>
+                    <i className="fas fa-search"></i>
                   </button>
                 </div>
               </div>
-              <div className="offset-md-3 col-4 p-0 pl-0 pl-sm-5 mr-5 mr-sm-0">
+              <div className="offset-md-3 col-5 col-md-4 p-2 pl-sm-5 mr-4 mr-sm-0">
                 <div className="d-flex justify-content-end pl-0 pl-sm-4 mt-2">
                   <select
                     name="searchtype"
@@ -192,7 +163,7 @@ const Movies = (props) => {
                     <option value="3">Desceding Title</option>
                     <option value="4">Asceding Title</option>
                   </select>
-                  <span className="arrow mt-1">
+                  <span className="arrow mt-2 pt-1">
                     <i className="fas fa-sort-down"></i>
                   </span>
                 </div>
@@ -201,21 +172,15 @@ const Movies = (props) => {
           </div>
 
           <div className="mt-4 p-4">
-            {result.length > 0 ? (
-              <ContentMovie movieList={props.movies} />
-            ) : (
-              <ContentMovie movieList={result} />
-            )}
-
-            {/* {loading && !errorMessage ? (
+            {loading && !errorMessage ? (
               <h1>loading... </h1>
             ) : errorMessage ? (
               <div className="errorMessage">{errorMessage}</div>
             ) : result.length > 0 ? (
               <ContentMovie movieList={props.movies} />
             ) : (
-              <ContentMovie movieList={props.movies} />
-            )} */}
+              <ContentMovie movieList={result} />
+            )}
           </div>
         </div>
       </div>
@@ -225,8 +190,9 @@ const Movies = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    data: state.data,
-    movies: state.movies
+    movies: state.movies,
+    loading: state.loading,
+    errorMessage: state.errorMessage,
   };
 };
 

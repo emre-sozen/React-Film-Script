@@ -7,8 +7,12 @@ export const getData = () => (dispatch) => {
     )
     .then(
       (response) => dispatch({ type: "GET_DATA_SUCCESS", payload: response.data.entries }) && 
-      dispatch({ type: "GET_DATA_MOVIE", payload: response.data.entries.filter((movie) => movie.programType === "movie") }) && 
-      dispatch({ type: "GET_DATA_SERIES", payload: response.data.entries.filter((series) => series.programType === "series") })
+      dispatch({ type: "GET_DATA_MOVIE", payload: response.data.entries.filter((movie) => movie.programType === "movie" && movie.releaseYear >= 2010).sort((a, b) =>
+      a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
+    ) }) && 
+      dispatch({ type: "GET_DATA_SERIES", payload: response.data.entries.filter((series) => series.programType === "series" && series.releaseYear >= 2010).sort((a, b) =>
+      a.title !== b.title ? (a.title < b.title ? -1 : 1) : 0
+    ) })
     )
     .catch((error) => dispatch({ type: "GET_DATA_ERROR", payload: error }));
 };
